@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ecuaciones y sistemas paso a paso · Tema 5</title>
+<style>
+:root{--ink:#172943;--muted:#334964;--rose:#f9dbd1;--paper:#ffffff;--accent:#203654;--line:#cbbca3}*{box-sizing:border-box}body{margin:0;background:#fffdfa;color:var(--ink);font:1rem/1.55 system-ui,sans-serif}header,main,footer,.voice-bar{max-width:67rem;margin:auto;padding:1rem clamp(1rem,4vw,2.5rem)}h1,h2,h3{font-family:Georgia,serif;line-height:1.2}h1{font-size:clamp(2.6rem,7vw,4.8rem);margin:.2em 0}h2{font-size:clamp(1.8rem,5vw,2.8rem);margin:.25em 0}.eyebrow{font-size:.8rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}.layout{display:grid;grid-template-columns:minmax(12rem,1fr) minmax(0,3fr);gap:1rem;align-items:start}.panel{background:var(--paper);border:1px solid var(--line);border-radius:1rem;padding:clamp(.8rem,3vw,1.5rem)}nav{display:grid;gap:.4rem}nav button{text-align:left}button,select{font:inherit;color:inherit;background:var(--paper);border:1px solid #926d6b;border-radius:.55rem;padding:.45rem .65rem;min-height:44px;max-width:100%}button{cursor:pointer}button:hover:not(:disabled),button[aria-current]{background:var(--rose)}button:disabled{opacity:.55}.primary{background:var(--accent);color:white}.primary:hover:not(:disabled){background:#142540}:focus-visible{outline:3px solid #a13e38;outline-offset:3px}.formula{background:#fdf6f0;border-left:4px solid #c45a4c;padding:.65rem .8rem;border-radius:.3rem;font:700 clamp(1rem,3.6vw,1.35rem)/1.5 Menlo,Consolas,monospace;overflow-wrap:anywhere;margin:.45rem 0}.step{margin:1rem 0;padding-top:.6rem;border-top:1px solid var(--line)}.example-start{margin-top:1.8rem;border-top:2px solid var(--accent)}.example-label{background:var(--rose);border-radius:.45rem;padding:.5rem .75rem;font-weight:750}.controls{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}.operation{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:.35rem;align-items:center}.operation>.speaker{grid-column:3;grid-row:1;min-width:44px}.operation>.playback{grid-column:2;grid-row:1;white-space:nowrap}.playback{display:inline-flex;gap:.2rem}.playback button{min-width:40px;padding:.2rem}.row-explanation{border-bottom:1px solid var(--line);padding-bottom:.4rem}.row-reason,.why{color:var(--muted)}.why li+li{margin-top:.3rem}.line,#intervalDrawing{width:100%;max-width:440px;display:block;margin:.7rem 0}table{width:100%;border-collapse:collapse;font-size:clamp(.75rem,2.4vw,.95rem);margin:.75rem 0}td,th{border:1px solid var(--line);padding:.3rem;text-align:center}th{background:#f9dbd1}caption{text-align:left;font-weight:750;margin-bottom:.3rem}summary{cursor:pointer;font-weight:750}.voice-bar{border-bottom:1px solid var(--line)}.voice-bar label,.interval-explorer label{display:block;font-weight:650}.voice-bar .controls{margin-top:.5rem}.interval-explorer{padding:.8rem;border:1px solid var(--line);border-radius:.8rem;background:#fcf1ec;margin:1rem 0}.interval-slider{flex:1 1 9rem}.interval-slider input{width:100%;accent-color:var(--accent)}.skip,.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.skip:focus{position:static;width:auto;height:auto;clip-path:none}footer{color:var(--muted)}[hidden]{display:none!important}@media(max-width:690px){.layout{grid-template-columns:1fr}nav{grid-template-columns:repeat(2,minmax(0,1fr))}}@media print{nav,.controls,.voice-bar,.speaker,.playback{display:none!important}.layout{display:block}}
+ .formula{font-variant-numeric:slashed-zero}.graph{margin:1rem 0}.graph svg{display:block;width:100%;max-width:35rem;border:1px solid var(--line);border-radius:.65rem}.graph-controls,.answer-check{padding:.8rem;border:1px solid var(--line);border-radius:.65rem;background:#fffdfa}.graph-controls label,.answer-check label{display:block;font-weight:650}.graph-controls output{float:right}.graph-controls input[type=range]{width:100%;min-height:44px;accent-color:#a13e38}.answer-check input{font:inherit;min-height:44px;max-width:100%;padding:.4rem}.answer-check p:empty{display:none}.product-map{margin:1rem 0}.product-map li{padding:.35rem 0;overflow-wrap:anywhere}.product-map li>span{margin-right:.45rem}.product-map mark{background:#f9dbd1;color:#172943;border-radius:.2rem;padding:.08rem .16rem}
+.menu-heading{font-size:1.25rem;margin:.35rem 0}.menu-links{display:grid;gap:.4rem}.menu-links+.menu-heading{margin-top:1rem}@media(max-width:690px){#menu{grid-template-columns:1fr}.menu-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<a class="skip" href="#lesson">Saltar a la explicación</a>
+<div class="voice-bar"><details id="voiceSettings"><summary>🔊 Elegir voz y velocidad</summary><div class="controls"><div><label for="voices">Voz en español</label><select id="voices"></select></div><div><label for="rate">Velocidad</label><select id="rate"><option value="1">Normal</option><option value="1.2">Más rápido</option><option value=".8">Más lento</option></select></div></div></details><p id="voiceState" class="sr" role="status"></p></div>
+<header><div class="eyebrow">Tema 5 · Álgebra · Guía interactiva</div><h1>Ecuaciones y sistemas<br>paso a paso</h1><p>En las explicaciones puedes ver todos los pasos. En la práctica, intenta resolver cada ejercicio antes de ver la solución. Pulsa el altavoz para escuchar la explicación.</p></header>
+<main><div class="layout"><nav class="panel" aria-label="Explicaciones y práctica" id="menu"><h2 class="menu-heading">Explicaciones</h2><div class="menu-links" id="explanationLinks"></div><h2 class="menu-heading">Práctica</h2><div class="menu-links" id="practiceLinks"></div></nav>
+<section class="panel" id="lesson" aria-labelledby="title"><div class="eyebrow" id="source"></div><h2 id="title" tabindex="-1"></h2>
+<div class="operation"><div><p id="prompt" class="formula" hidden></p><p id="intro"></p></div><button id="introSpeaker" class="speaker" type="button" aria-label="Escuchar el planteamiento">🔊</button></div>
+<div id="steps"></div><p id="progress" role="status"></p><div class="controls"><button id="prev">Anterior</button><button id="hide">Ocultar último paso</button><button id="next" class="primary">Revelar paso</button></div>
+</section></div><div id="playback" class="playback" hidden><button id="pause" type="button" aria-label="Pausar">⏸</button><button id="stop" type="button" aria-label="Cerrar audio">×</button></div></main>
+<footer id="credits"></footer><noscript>Activa JavaScript para usar la presentación interactiva.</noscript>
+<script>
+'use strict';
+const step = (title, math, reason, speech=reason, extra='') => ({title,math,reason,speech,extra});
+const lessons = [
+['Segundo grado · Incompletas','Pág. 66 · Ejercicios 1a, 2a y 2d','Mira solo el lado izquierdo. Busca una parte con equis al cuadrado, otra con equis y un número sin equis. En equis al cuadrado más equis menos dos aparecen las tres partes, así que es completa. En equis al cuadrado menos tres equis falta el número sin equis. Podrías escribir más cero, pero sumar cero no cambia nada. Por eso es incompleta. El cero que está a la derecha del igual no cuenta.',[
+step('Escribir cada término como una multiplicación','x² − 3x = 0','Escribe x² como x · x y −3x como x · (−3). Así se ve la pieza que comparten: en los dos términos hay una x multiplicando.','Equis al cuadrado es equis por equis. Menos tres equis es equis por menos tres. En ambos productos aparece una equis. Esa es la pieza que vamos a sacar.'),
+step('Ver qué queda dentro del paréntesis','x · x + x · (−3) = 0 → x · (x − 3) = 0','El cero de la derecha sigue igual. Solo reescribimos lo que hay a la izquierda. Escribe la x compartida una sola vez fuera del paréntesis. Del primer término queda x y del segundo queda −3. Comprueba el resultado distribuyendo: x · x da x² y x · (−3) da −3x.','El cero de la derecha se queda donde estaba. Solo cambiamos la forma de escribir el lado izquierdo. Deja una equis fuera del paréntesis. Del primer producto queda equis y del segundo queda menos tres. Para comprobarlo, vuelve a multiplicar la equis de fuera por cada término de dentro. Recuperas la expresión de partida.'),
+step('Aplicar la regla del producto cero','x · (x − 3) = 0','Para que una multiplicación dé cero, basta con que uno de sus factores valga cero. Por eso abrimos dos casos. Conservamos el caso x = 0, que se perdería si dividiéramos la ecuación entre x.','Ahora tenemos dos factores. Basta con que uno sea cero. Conservamos el caso equis igual a cero, que se perdería al dividir entre equis.'),
+step('Resolver cada caso','Primera solución: x = 0 · Segunda solución: x = 3','El primer factor es x, así que da x = 0 directamente. Para el segundo, empieza con x − 3 = 0 y suma 3 en ambos lados: x − 3 + 3 = 0 + 3. Queda x = 3.','El primer caso ya está despejado: equis igual a cero. En el segundo, equis menos tres igual a cero, sumamos tres en ambos lados. Así sale equis igual a tres.'),
+step('Comprobar en la ecuación de partida','Con x = 0: 0² − 3 · 0 = 0 · Con x = 3: 3² − 3 · 3 = 0','Sustituye cada solución por separado en x² − 3x. Con 0, ambos términos valen cero. Con 3, queda 9 − 9. Los dos valores funcionan.','Sustituimos primero cero y luego tres. Con cero sale cero menos cero. Con tres sale nueve menos nueve. Los dos resultados dan cero, así que hemos comprobado las dos soluciones.'),
+step('Aislar el cuadrado','x² − 9 = 0','Suma 9 en ambos lados: x² − 9 + 9 = 0 + 9. Queda x² = 9.'),
+step('Buscar los dos números','x = −3  o  x = 3','Tanto (−3)² como 3² valen 9. Al resolver x² = 9 hay que contar las dos posibilidades.'),
+step('Detectar cuándo no hay solución real','x² + 4 = 0','Resta 4 en ambos lados: x² = −4. El cuadrado de un número real nunca es negativo. Por eso no hay soluciones reales.')
+]],
+['Segundo grado · Completas','Págs. 60–61 y 66 · Ejercicios 3a, 3c, 3d y 3e','Factorizar significa reescribir una suma como un producto. Una raíz es un valor de x que hace que el polinomio valga cero. Puedes buscarla con factores sencillos o con la fórmula general.',[
+step('Factorizar','x² + x − 2 = (x + 2)(x − 1)','Multiplica cada término del primer paréntesis por cada término del segundo. Primero: x · x = x². Segundo: x · (−1) = −x. Tercero: 2 · x = 2x. Cuarto: 2 · (−1) = −2. Escribe juntos los cuatro resultados: x² − x + 2x − 2. Agrupa los términos con x: −x + 2x = x. Así recuperas x² + x − 2.', 'Multiplica cada término del primer paréntesis por cada término del segundo. Primero: x · x = x². Segundo: x · (−1) = −x. Tercero: 2 · x = 2x. Cuarto: 2 · (−1) = −2. Escribe juntos los cuatro resultados: x² − x + 2x − 2. Agrupa los términos con x: −x + 2x = x. Así recuperas x² + x − 2.', `<figure class="product-map"><figcaption>De dónde sale cada producto</figcaption><ol><li><span class="product-origin">(<mark>x</mark> + 2)(<mark>x</mark> − 1)</span><span aria-hidden="true">→</span><strong>x · x = x²</strong></li><li><span class="product-origin">(<mark>x</mark> + 2)(x <mark>− 1</mark>)</span><span aria-hidden="true">→</span><strong>x · (−1) = −x</strong></li><li><span class="product-origin">(x + <mark>2</mark>)(<mark>x</mark> − 1)</span><span aria-hidden="true">→</span><strong>2 · x = 2x</strong></li><li><span class="product-origin">(x + <mark>2</mark>)(x <mark>− 1</mark>)</span><span aria-hidden="true">→</span><strong>2 · (−1) = −2</strong></li></ol></figure>`),
+step('Igualar a cero los factores','x + 2 = 0  o  x − 1 = 0','Primera opción: x + 2 = 0. Escribe x + 2 − 2 = 0 − 2. Queda x = −2. Segunda opción: x − 1 = 0. Escribe x − 1 + 1 = 0 + 1. Queda x = 1. Si sustituyes −2 o 1 en el producto, en cada caso uno de los factores vale cero.'),
+step('Identificar los coeficientes','x² + 5x − 2 = 0','En ax² + bx + c = 0, aquí a = 1, b = 5 y c = −2. Incluye el signo negativo de c.'),
+step('Calcular el discriminante','Δ = 5² − 4 · 1 · (−2) → Δ = 25 − (−8) → Δ = 25 + 8 → Δ = 33','Δ se lee delta. Es el número que va dentro de la raíz cuadrada y se llama discriminante. Primero calcula 5² = 25. Luego multiplica 4 por 1 y por −2: da −8. Como en la fórmula se resta ese producto, queda 25 − (−8), que es 25 + 8 = 33. Al ser positivo, su raíz cuadrada es distinta de cero y las opciones + y − dan dos soluciones distintas.'),
+step('Sustituir en la fórmula','x = (−5 ± √33) / 2','La fórmula es x = (−b ± √Δ)/(2a). Sustituye b por 5, Δ por 33 y a por 1. Arriba queda −5 ± √33. Abajo, 2 · 1 = 2. El símbolo ± indica dos cuentas: (−5 + √33)/2 y (−5 − √33)/2.'),
+step('Reconocer una raíz doble','x² + 6x + 9 = (x + 3)² = 0','Escribe (x + 3)² como (x + 3)(x + 3). Los dos factores son iguales. Para que el producto dé cero, resuelve x + 3 = 0: resta 3 en ambos lados y queda x = −3. Al sustituir −3, ambos factores valen cero. Se llama raíz doble porque el factor se repite, aunque solo haya un valor de x. Aquí Δ = 6² − 4 · 1 · 9 = 36 − 36 = 0.'),
+step('Reconocer la ausencia de raíces reales','x² + x + 1 = 0','Los coeficientes son a = 1, b = 1 y c = 1. Sustituye en el discriminante: 1² − 4 · 1 · 1 = 1 − 4 = −3. La fórmula pediría calcular √(−3). Como el cuadrado de cualquier número real es cero o positivo, ninguno puede tener cuadrado −3. Por eso no hay soluciones reales.')
+]],
+['Polinomios de grado mayor','Pág. 66 · Ejercicios 7c, 7d y 9b','El grado es el mayor exponente de x. En los ejemplos de grado tres agruparemos términos para encontrar factores. En el de grado cuatro, llamaremos t a x² y resolveremos primero para t.',[
+step('Agrupar dos pares','x³ + x² − 2x − 2 = x²(x + 1) − 2(x + 1)','En x³ + x², escribe x³ = x² · x y x² = x² · 1. Al sacar x² queda x²(x + 1). En −2x − 2, escribe −2x = −2 · x y −2 = −2 · 1. Al sacar −2 queda −2(x + 1). Ahora los dos productos comparten (x + 1).'),
+step('Factorizar y resolver','(x + 1)(x² − 2) = 0','Escribe (x + 1) una sola vez fuera del paréntesis. Dentro queda x² − 2. Para que el producto valga cero, resuelve x + 1 = 0 y x² − 2 = 0 por separado. En la primera resta 1: x = −1. En la segunda suma 2: x² = 2. Como tanto √2 como −√2 tienen cuadrado 2, salen dos soluciones más.'),
+step('Distinguir un factor que nunca se anula','x³ − x² + 4x − 4 = (x − 1)(x² + 4)','Agrupa x³ − x² y 4x − 4. El factor x² + 4 siempre es positivo. Solo puede anularse x − 1, de modo que x = 1.'),
+step('Reducir una ecuación de cuarto grado','x⁴ − 13x² + 36 = 0','Observa que x⁴ = (x²)². Para que la ecuación se vea más sencilla, llama t a x². Sustituye x⁴ por t² y −13x² por −13t. Queda t² − 13t + 36 = 0. Al final tendrás que volver de t a x.'),
+step('Resolver primero para t','(t − 4)(t − 9) = 0','Los números −4 y −9 suman −13 y su producto es 36. Si t − 4 = 0, suma 4 a ambos lados y obtienes t = 4. Si t − 9 = 0, suma 9 a ambos lados y obtienes t = 9.'),
+step('Volver a x','x² = 4  o  x² = 9','Recuerda que t era x². De la primera ecuación salen −2 y 2. De la segunda, −3 y 3.')
+]],
+['Ecuaciones logarítmicas','Págs. 62 y 66 · Ejercicios 10a, 10c y 11a','Un logaritmo y una potencia expresan la misma relación. Si log en base b de A es igual a k, entonces b elevado a k es igual a A. A es el argumento, es decir, lo que está dentro del logaritmo. En los números reales debe ser positivo.',[
+step('Convertir el logaritmo en potencia','log(5x) = 2','En el ejercicio 10a, log es de base 10. La igualdad pregunta: «¿Qué número se obtiene si elevo 10 a 2?». Ese número es el argumento, 5x. Por eso escribimos 5x = 10² = 100. Al terminar, comprueba que el argumento sea positivo.'),
+step('Dividir en ambos lados','(5x) ÷ 5 = 100 ÷ 5','A la izquierda queda x. A la derecha, 20. Como 5 · 20 = 100 es positivo, x = 20 cumple.'),
+step('Usar que una potencia de exponente cero vale uno','log(x − 4) = 0','Pasa a potencia: x − 4 = 10⁰ = 1. Suma 4 en ambos lados y obtienes x = 5. El argumento vale 1, así que es válido.'),
+step('Trabajar con un exponente negativo','log₂(3x) = −1','Pasa a potencia: 3x = 2⁻¹ = 1/2. Divide ambos lados entre 3: (3x) ÷ 3 = (1/2) ÷ 3. Queda x = 1/6. El argumento vale 1/2 y es positivo.')
+]],
+['Ecuaciones exponenciales','Págs. 63 y 66 · Ejercicios 15a, 15d y 14a','Aquí x aparece en el exponente. Si puedes expresar los dos lados con la misma base, compara exponentes. Si no, usa logaritmos.',[
+step('Escribir ambos lados con la misma base','2ˣ = 64 = 2⁶','Comprueba que 2⁶ = 2 · 2 · 2 · 2 · 2 · 2 = 64. Ahora la ecuación dice 2ˣ = 2⁶. Las potencias de base 2 aumentan al aumentar el exponente. Para que tengan el mismo valor, los exponentes deben coincidir. Así, x = 6.'),
+step('Reescribir una potencia de base 4','4^(2 − x) = 8','Como 4 = 2² y 8 = 2³, queda 2^(4 − 2x) = 2³. El exponente 4 − 2x sale de multiplicar 2 por todo el paréntesis.'),
+step('Igualar exponentes y despejar','4 − 2x = 3','Resta 4 en ambos lados: −2x = −1. Divide ambos lados entre −2: (−2x) ÷ (−2) = (−1) ÷ (−2). Queda x = 1/2.'),
+step('Aplicar logaritmos','2ˣ = 5','Los dos lados son positivos, así que puedes tomar logaritmos: log(2ˣ) = log(5). La regla log(2ˣ) = x · log(2) deja x multiplicando. Divide ambos lados: [x · log(2)] ÷ log(2) = log(5) ÷ log(2). Se cancela log(2) a la izquierda. Con la calculadora, x ≈ 2,322.')
+]],
+['Sistemas · Método de Gauss','Págs. 64–65 · Caso del alquiler de vehículos','Un sistema exige que todas sus ecuaciones se cumplan a la vez. En el método de Gauss, restamos a una ecuación un múltiplo de otra para cancelar una incógnita. Conservamos la ecuación que hemos usado para hacer la resta. Aquí x son motos, y son coches y z son furgonetas.',[
+step('Escribir las tres ecuaciones','x + y + z = 120   ·   15x + 27y + 30z = 3150   ·   120x + 250y + 300z = 29 550','La primera cuenta vehículos. La segunda suma lo que se cobra por alquilarlos. La tercera suma el coste de revisarlos.'),
+step('Eliminar x de la segunda','12y + 15z = 1350','Multiplica la primera por 15: 15x + 15y + 15z = 1800. Réstala de la segunda, término a término. Se cancela 15x − 15x. Queda (27 − 15)y + (30 − 15)z = 3150 − 1800. Así obtienes 12y + 15z = 1350. Divide cada término entre 3: (12y) ÷ 3 + (15z) ÷ 3 = 1350 ÷ 3. Queda 4y + 5z = 450.'),
+step('Eliminar x de la tercera','130y + 180z = 15 150','A la tercera réstale 120 veces la primera. El término con x se cancela: 120x − 120x = 0. Los otros coeficientes quedan en 250 − 120 = 130 y 300 − 120 = 180. A la derecha queda 29 550 − 14 400 = 15 150. Divide cada término entre 10: (130y) ÷ 10 + (180z) ÷ 10 = 15 150 ÷ 10. Queda 13y + 18z = 1515.'),
+step('Eliminar y','7z = 210','Multiplica la primera igualdad por 4: 52y + 72z = 6060. Multiplica la segunda por 13: 52y + 65z = 5850. Resta la segunda de la primera. Se cancela 52y, 72z − 65z da 7z y 6060 − 5850 da 210.'),
+step('Volver hacia arriba','z = 30   ·   y = 75   ·   x = 15','Escribe (7z) ÷ 7 = 210 ÷ 7, así que z = 30. Sustituye: 4y + 5 · 30 = 450. Resta 150 y divide ambos lados: (4y) ÷ 4 = 300 ÷ 4. Así, y = 75. Sustituye ambas cantidades en x + y + z = 120 y resta 75 y 30: x = 15. Comprueba que 15 + 75 + 30 = 120.')
+]],
+['Sistemas · Cuántas soluciones hay','Pág. 67 · Ejercicios 22b y 22c','Si una fila se convierte en 0 = 0, esa ecuación no añade una condición. Si aparece 0 igual a un número distinto de cero, el sistema es incompatible.',[
+step('Encontrar una ecuación repetida','x + y − z = 2   ·   2x − 5y + 6z = 5   ·   3x − 4y + 5z = 7','En el 22b, al sumar las dos primeras ecuaciones sale exactamente la tercera. Al restar esa suma de la tercera, queda 0 = 0.'),
+step('Escribir las soluciones con un parámetro','z = t   ·   y = (8t − 1)/7   ·   x = (15 − t)/7','De la primera, x = 2 − y + z. Sustituye en la segunda: 4 − 7y + 8z = 5. Así, 7y = 8z − 1. Elige cualquier z y calcula y y x. Hay infinitas soluciones.'),
+step('Encontrar una contradicción','x − 5y + 2z = 1   ·   x + y + z = 0   ·   2x − 4y + 3z = 2','Suma término a término las dos primeras ecuaciones: x + x = 2x, −5y + y = −4y y 2z + z = 3z. A la derecha queda 1 + 0 = 1. Así, las dos primeras obligan a que 2x − 4y + 3z valga 1. La tercera pide que esa misma expresión valga 2. Si restas ambas igualdades queda 0 = 1, una contradicción. Ningún trío de valores puede cumplir las tres a la vez.')
+]]
+];
+const exampleGroups = [
+ [[0,'Ejercicio 1a · Factor común'],[5,'Ejercicio 2a · Raíz cuadrada'],[7,'Ejercicio 2d · Sin solución real']],
+ [[0,'Ejercicio 3a · Factorización'],[2,'Ejercicio 3c · Fórmula general'],[5,'Ejercicio 3d · Raíz doble'],[6,'Ejercicio 3e · Sin raíces reales']],
+ [[0,'Ejercicio 7c'],[2,'Ejercicio 7d'],[3,'Ejercicio 9b']],
+ [[0,'Ejercicio 10a'],[2,'Ejercicio 10c'],[3,'Ejercicio 11a']],
+ [[0,'Ejercicio 15a'],[1,'Ejercicio 15d'],[3,'Ejercicio 14a']],
+ [],
+ [[0,'Ejercicio 22b · Infinitas soluciones'],[2,'Ejercicio 22c · Sin solución']]
+];
+const selfPractice = [
+ ['1b · Factor común','5x² + 75x = 0',['Saca 5x como factor común: 5x(x + 15) = 0.','Primer factor: 5x = 0. Divide ambos lados: (5x) ÷ 5 = 0 ÷ 5. Queda x = 0. Segundo factor: x + 15 = 0. Resta 15 a ambos lados y queda x = −15.']],
+ ['2b · Despejar el cuadrado','4x² − 16 = 0',['Suma 16 en ambos lados: 4x² = 16.','Divide ambos lados entre 4: (4x²) ÷ 4 = 16 ÷ 4. Queda x² = 4.','Los dos números cuyo cuadrado vale 4 son −2 y 2.']],
+ ['3b · Ecuación completa','2x² + 2x − 12 = 0',['Escribe (2x²) ÷ 2 + (2x) ÷ 2 − 12 ÷ 2 = 0 ÷ 2. Simplifica cada término: x² + x − 6 = 0.','Factoriza con 3 y −2: (x + 3)(x − 2) = 0.','Primer factor: x + 3 = 0. Resta 3 en ambos lados y queda x = −3. Segundo factor: x − 2 = 0. Suma 2 en ambos lados y queda x = 2.']],
+ ['4 · Reconstruir una ecuación','x² + ax + b = 0, con raíces 1 y 3',['Los factores que se anulan en 1 y 3 son x − 1 y x − 3.','Multiplica: (x − 1)(x − 3) = x² − 4x + 3.','Compara coeficientes: a = −4 y b = 3.']],
+ ['7b · Agrupar','x³ + 5x² − 9x − 45 = 0',['Agrupa como x²(x + 5) − 9(x + 5).','Saca el paréntesis común: (x + 5)(x² − 9) = 0.','El primer factor da −5. El segundo da −3 y 3.']],
+ ['10b · Logaritmo decimal','log(x/3) = 1',['Pasa a potencia: x/3 = 10¹ = 10.','Multiplica por 3 ambos lados: x = 30.','El argumento vale 10, que es positivo.']],
+ ['12b · Logaritmo natural','ln(x) = 1',['El logaritmo natural tiene base e. Pasa a potencia: x = e¹.','La solución es e, aproximadamente 2,718. Es válida porque e es positivo.']],
+ ['15c · Igualar exponentes','3^(−x) = 27',['Escribe 27 como 3³.','Al tener la misma base, −x = 3. Divide ambos lados entre −1: (−x) ÷ (−1) = 3 ÷ (−1). Queda x = −3.']],
+ ['16b · Potencia de diez','10ˣ = 0,00001',['0,00001 es 1/100 000 y 100 000 = 10⁵.','Por tanto, 0,00001 = 10⁻⁵. Iguala los exponentes: x = −5.']],
+ ['22a · Sistema con solución única','x + y + z = 3   ·   −3x + 5y − z = −13   ·   −2x − y + 3z = 3',['Despeja z en la primera: z = 3 − x − y.','Sustituye en la segunda: −2x + 6y = −10. Divide entre −2: x − 3y = 5.','Sustituye en la tercera: −5x − 4y = −6. Cambia ambos signos: 5x + 4y = 6.','De x − 3y = 5 sale x = 5 + 3y. Sustituye: 25 + 19y = 6. Resta 25 y divide ambos lados por 19: y = −1.','Sustituye hacia atrás: x = 2 y z = 2. La solución única es (2, −1, 2).']]
+];
+lessons.push(['Gráfica · Parábola interactiva','Ejercicio 3a · Pág. 66','Prueba los tres botones del discriminante para comparar los cortes. Después mueve los deslizadores para ver cómo cambia la gráfica de y = ax² + bx + c. Los cortes con el eje horizontal son las soluciones de ax² + bx + c = 0.',[
+step('Ver las soluciones en la gráfica','y = x² + x − 2','Partimos de la ecuación del ejemplo 3a. Como x² + x − 2 = (x + 2)(x − 1), la curva corta el eje horizontal en −2 y 1. En esos puntos, y vale cero.','Partimos del ejercicio tres a. La curva corta el eje horizontal en menos dos y en uno. Allí la altura vale cero, por eso esos dos valores resuelven la ecuación.',`<div class="graph-controls">
+<p><strong>Explora la parábola.</strong> Cambia un coeficiente cada vez. Los valores iniciales corresponden al ejemplo 3a de esta presentación.</p>
+<label for="coef-a">a · Apertura y curvatura <output id="value-a">1</output></label><input id="coef-a" type="range" min="-3" max="3" step=".25" value="1">
+<label for="coef-b">b · Posición del eje de simetría <output id="value-b">1</output></label><input id="coef-b" type="range" min="-8" max="8" step=".25" value="1">
+<label for="coef-c">c · Altura en x = 0 <output id="value-c">−2</output></label><input id="coef-c" type="range" min="-8" max="10" step=".25" value="-2">
+<div class="controls" aria-label="Casos del discriminante">
+<button id="graph-two" type="button">Dos cortes · Δ &gt; 0</button>
+<button id="graph-one" type="button">Un punto de contacto · Δ = 0</button>
+<button id="graph-none" type="button">Sin cortes · Δ &lt; 0</button>
+<button id="graph-reset" type="button">Restablecer valores</button>
+</div>
+<figure class="graph"><svg id="live-graph" viewBox="0 0 460 280" role="img" aria-label="Gráfica de la ecuación"></svg><figcaption id="graph-reading" role="status"></figcaption></figure>
+</div>`),
+step('Cambiar un coeficiente cada vez','y = ax² + bx + c','Cambia a para ver hacia dónde abre la parábola. Si a vale cero, la gráfica es una recta o una función constante. Cambia b con a fijo para mover el eje de simetría. Cambia c para subir o bajar la gráfica.'),
+step('Comparar dos cortes, uno o ninguno','Δ = b² − 4ac','Con a distinto de cero, un discriminante positivo da dos cortes. Si vale cero, la curva toca el eje en el vértice. Si es negativo, no hay cortes reales.')
+]]);
+const expectedAnswers = [[0,-15],[-2,2],[-3,2],[-4,3],[-5,-3,3],[30],null,[-3],[-5],[2,-1,2]];
+function checkAnswer(raw, expected, ordered) {
+  const parts = raw.trim().split(/[;\s]+/).filter(Boolean);
+  if (parts.length !== expected.length || parts.some(part => !/^[+−-]?\d+(?:[.,]\d+)?$/.test(part))) return 'format';
+  const answers = parts.map(part => Number(part.replace('−','-').replace(',','.')));
+  if (!ordered) answers.sort((a,b)=>a-b);
+  const target = ordered ? expected : [...expected].sort((a,b)=>a-b);
+  return answers.every((value,index)=>value === target[index]) ? 'correct' : 'retry';
+}
+lessons.push(['Practica por tu cuenta','Págs. 66–67 · Selección de actividades','Intenta resolver cada ecuación antes de abrir su solución. Pulsa el altavoz junto a un paso para escuchar su explicación.',[]]);
+const prompts = {};
+const visualSteps = {
+  "Escribir cada término como una multiplicación": [
+    [
+      "x²",
+      "<mark>x</mark> · x"
+    ],
+    [
+      "−3x",
+      "<mark>x</mark> · (−3)"
+    ],
+    [
+      "<mark>x</mark> · x + <mark>x</mark> · (−3)",
+      "<mark>x</mark> · (x − 3)"
+    ]
+  ],
+  "Resolver cada caso": [
+    [
+      "<mark>x</mark> · (x − 3) = 0",
+      "x = 0"
+    ],
+    [
+      "x · <mark>(x − 3)</mark> = 0",
+      "x − 3 = 0 → x = 3"
+    ]
+  ],
+  "Aislar el cuadrado": [
+    [
+      "x² <mark>− 9</mark> = 0",
+      "x² − 9 <mark>+ 9</mark> = 0 <mark>+ 9</mark>"
+    ],
+    [
+      "x² − 9 + 9 = 0 + 9",
+      "x² = 9"
+    ],
+    [
+      "x² = <mark>9</mark>",
+      "x = −3; x = 3"
+    ]
+  ],
+  "Detectar cuándo no hay solución real": [
+    [
+      "x² <mark>+ 4</mark> = 0",
+      "x² + 4 <mark>− 4</mark> = 0 <mark>− 4</mark>"
+    ],
+    [
+      "x² = <mark>−4</mark>",
+      "Sin solución real"
+    ]
+  ],
+  "Identificar los coeficientes": [
+    [
+      "<mark>x²</mark> + 5x − 2 = 0",
+      "a = 1"
+    ],
+    [
+      "x² + <mark>5x</mark> − 2 = 0",
+      "b = 5"
+    ],
+    [
+      "x² + 5x <mark>− 2</mark> = 0",
+      "c = −2"
+    ]
+  ],
+  "Sustituir en la fórmula": [
+    [
+      "−<mark>b</mark>",
+      "−5"
+    ],
+    [
+      "√<mark>Δ</mark>",
+      "√33"
+    ],
+    [
+      "2<mark>a</mark>",
+      "2 · 1 = 2"
+    ],
+    [
+      "(<mark>−5 ± √33</mark>) / 2",
+      "Una cuenta con + y otra con −"
+    ]
+  ],
+  "Agrupar dos pares": [
+    [
+      "<mark>x³ + x²</mark> − 2x − 2",
+      "x²<mark>(x + 1)</mark>"
+    ],
+    [
+      "x³ + x² <mark>− 2x − 2</mark>",
+      "−2<mark>(x + 1)</mark>"
+    ],
+    [
+      "x²<mark>(x + 1)</mark> − 2<mark>(x + 1)</mark>",
+      "<mark>(x + 1)</mark>(x² − 2)"
+    ]
+  ],
+  "Distinguir un factor que nunca se anula": [
+    [
+      "<mark>x³ − x²</mark> + 4x − 4",
+      "x²<mark>(x − 1)</mark>"
+    ],
+    [
+      "x³ − x² <mark>+ 4x − 4</mark>",
+      "4<mark>(x − 1)</mark>"
+    ],
+    [
+      "x²<mark>(x − 1)</mark> + 4<mark>(x − 1)</mark>",
+      "<mark>(x − 1)</mark>(x² + 4)"
+    ]
+  ],
+  "Reducir una ecuación de cuarto grado": [
+    [
+      "<mark>x²</mark>",
+      "t"
+    ],
+    [
+      "<mark>x⁴</mark> = (x²)²",
+      "t²"
+    ],
+    [
+      "x⁴ − 13x² + 36 = 0",
+      "<mark>t²</mark> − 13<mark>t</mark> + 36 = 0"
+    ]
+  ],
+  "Convertir el logaritmo en potencia": [
+    [
+      "log₁₀(<mark>5x</mark>) = 2",
+      "<mark>5x</mark> = 10²"
+    ],
+    [
+      "5x = 10²",
+      "5x = 100"
+    ],
+    [
+      "5x = 100",
+      "(5x) <mark>÷ 5</mark> = 100 <mark>÷ 5</mark>"
+    ]
+  ],
+  "Usar que una potencia de exponente cero vale uno": [
+    [
+      "log₁₀(<mark>x − 4</mark>) = 0",
+      "<mark>x − 4</mark> = 10⁰ = 1"
+    ],
+    [
+      "x − 4 = 1",
+      "x − 4 <mark>+ 4</mark> = 1 <mark>+ 4</mark>"
+    ]
+  ],
+  "Trabajar con un exponente negativo": [
+    [
+      "log₂(<mark>3x</mark>) = −1",
+      "<mark>3x</mark> = 2⁻¹ = 1/2"
+    ],
+    [
+      "3x = 1/2",
+      "(3x) <mark>÷ 3</mark> = (1/2) <mark>÷ 3</mark>"
+    ]
+  ],
+  "Reescribir una potencia de base 4": [
+    [
+      "<mark>4</mark>^(2 − x)",
+      "(2²)^(2 − x) = 2^(4 − 2x)"
+    ],
+    [
+      "<mark>8</mark>",
+      "2³"
+    ],
+    [
+      "2^(<mark>4 − 2x</mark>) = 2^<mark>3</mark>",
+      "4 − 2x = 3"
+    ]
+  ],
+  "Aplicar logaritmos": [
+    [
+      "2ˣ = 5",
+      "log(2ˣ) = log(5)"
+    ],
+    [
+      "log(2<mark>ˣ</mark>)",
+      "<mark>x</mark> · log(2)"
+    ],
+    [
+      "x · log(2) = log(5)",
+      "x = log(5) ÷ log(2)"
+    ]
+  ],
+  "Eliminar x de la segunda": [
+    [
+      "<mark>15x</mark> − <mark>15x</mark>",
+      "0"
+    ],
+    [
+      "<mark>27y</mark> − <mark>15y</mark>",
+      "12y"
+    ],
+    [
+      "<mark>30z</mark> − <mark>15z</mark>",
+      "15z"
+    ],
+    [
+      "<mark>3150</mark> − <mark>1800</mark>",
+      "1350"
+    ]
+  ],
+  "Eliminar x de la tercera": [
+    [
+      "<mark>120x</mark> − <mark>120x</mark>",
+      "0"
+    ],
+    [
+      "250y − 120y",
+      "130y"
+    ],
+    [
+      "300z − 120z",
+      "180z"
+    ],
+    [
+      "29 550 − 14 400",
+      "15 150"
+    ]
+  ],
+  "Eliminar y": [
+    [
+      "<mark>52y</mark> + 72z = 6060",
+      "Primera igualdad multiplicada por 4"
+    ],
+    [
+      "<mark>52y</mark> + 65z = 5850",
+      "Segunda igualdad multiplicada por 13"
+    ],
+    [
+      "Resta: <mark>52y − 52y</mark>; 72z − 65z; 6060 − 5850",
+      "7z = 210"
+    ]
+  ],
+  "Volver hacia arriba": [
+    [
+      "7z = 210",
+      "z = <mark>30</mark>"
+    ],
+    [
+      "4y + 5 · <mark>30</mark> = 450",
+      "y = <mark>75</mark>"
+    ],
+    [
+      "x + <mark>75</mark> + <mark>30</mark> = 120",
+      "x = 15"
+    ]
+  ],
+  "Encontrar una contradicción": [
+    [
+      "<mark>x + x</mark>; −5y + y; 2z + z",
+      "2x − 4y + 3z"
+    ],
+    [
+      "Lado derecho de la suma: <mark>1 + 0</mark>",
+      "1"
+    ],
+    [
+      "Lado derecho de la tercera: <mark>2</mark>",
+      "La misma expresión tendría que valer 1 y 2"
+    ]
+  ],
+  "Ver las soluciones en la gráfica": [
+    [
+      "<mark>x + 2</mark> = 0",
+      "x = −2 → (−2, 0)"
+    ],
+    [
+      "<mark>x − 1</mark> = 0",
+      "x = 1 → (1, 0)"
+    ]
+  ]
+};
+const rowReasons = {
+ 'Δ = 25 − (−8)':'Calcula el cuadrado de cinco y el producto de cuatro por uno y por menos dos. Dan veinticinco y menos ocho.',
+ 'Δ = 25 + 8':'Restar menos ocho equivale a sumar ocho.',
+ 'Δ = 33':'Suma veinticinco y ocho. El discriminante es positivo, así que la fórmula dará dos soluciones reales distintas.'
+};
+document.getElementById('credits').textContent = 'Fuente · Tema 5, Ecuaciones y sistemas de ecuaciones, págs. 60–67. Enunciados seleccionados del libro con explicaciones adaptadas.';
+function graphModel(a,b,c) {
+  const delta = b*b-4*a*c;
+  const roots = a === 0 ? (b === 0 ? [] : [-c/b])
+    : delta < 0 ? [] : delta === 0 ? [-b/(2*a)]
+    : [(-b-Math.sqrt(delta))/(2*a),(-b+Math.sqrt(delta))/(2*a)].sort((x,y)=>x-y);
+  return {roots, vertex:a === 0 ? null : -b/(2*a)};
+}
+function updateGraph() {
+  const keys = ['a','b','c'];
+  const [a,b,c] = keys.map(key => Number(byId('coef-'+key).value));
+  const format = value => new Intl.NumberFormat('es-ES',{maximumFractionDigits:2}).format(value === 0 ? 0 : value);
+  keys.forEach((key,index)=>{byId('value-'+key).textContent=format([a,b,c][index]);});
+  const {roots,vertex}=graphModel(a,b,c);
+  const anchors=[-4,4,...roots,...(vertex===null?[]:[vertex])];
+  const left=Math.floor(Math.min(...anchors))-1, right=Math.ceil(Math.max(...anchors))+1;
+  const f=x=>a*x*x+b*x+c;
+  const samples=Array.from({length:181},(_,i)=>left+(right-left)*i/180);
+  const values=[0,c,...samples.map(f),...(vertex===null?[]:[f(vertex)])];
+  const low=Math.min(...values), high=Math.max(...values), pad=Math.max(1,(high-low)*.09);
+  const X=x=>46+(x-left)*390/(right-left);
+  const Y=y=>245-(y-low+pad)*217/(high-low+2*pad);
+  const dots=roots.map(x=>`<circle cx="${X(x)}" cy="${Y(0)}" r="5"/>`).join('');
+  const points=samples.map(x=>X(x).toFixed(2)+','+Y(f(x)).toFixed(2)).join(' ');
+  const path=`M46 ${Y(0)}H436 M${X(0)} 28V245`;
+  byId('live-graph').innerHTML=`<path d="${path}" stroke="#203654" fill="none"/><polyline points="${points}" stroke="#a13e38" stroke-width="3" fill="none"/><g fill="#a13e38">${dots}<circle cx="${X(0)}" cy="${Y(c)}" r="4"/></g><g fill="#203654" font-size="13"><text x="440" y="${Y(0)+4}">x</text><text x="${X(0)+7}" y="24">y</text><text x="46" y="267">x: ${format(left)} a ${format(right)}</text><text x="265" y="267">y: ${format(low-pad)} a ${format(high+pad)}</text></g>`;
+  const shape=a===0 ? (b===0?'Función constante.':'Recta.') : a>0?'Parábola abierta hacia arriba.':'Parábola abierta hacia abajo.';
+  const cuts=a===0&&b===0&&c===0?'Toda la gráfica coincide con el eje x.':roots.length?`Cortes con el eje x: ${roots.map(format).join(' y ')}.`:'Sin cortes con el eje x.';
+  const deltaText = a === 0 ? 'Sin discriminante cuadrático porque a = 0.' : `Δ = ${format(b*b-4*a*c)}.`;
+  const reading=`${shape} ${deltaText} ${cuts} Corta el eje y en ${format(c)}.${vertex===null?'':` Vértice: (${format(vertex)}; ${format(f(vertex))}).`}`;
+  byId('graph-reading').textContent=reading;
+  byId('live-graph').setAttribute('aria-label',reading);
+}
+const byId = id => document.getElementById(id);
+const menu = byId('menu'), title = byId('title'), steps = byId('steps');
+let current = 0, shown = 0;
+const synth = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window ? window.speechSynthesis : null;
+const voiceSelect = byId('voices'), rate = byId('rate');
+const playback = byId('playback'), pauseButton = byId('pause');
+let voices = [], active = null, paused = false, chosenVoice = '', activeSpeaker = null;
+voiceSelect.onchange = () => { chosenVoice = voiceSelect.value; };
+function audioState(message) {
+  byId('voiceState').textContent = message;
+  if (!active && playback.contains(document.activeElement)) activeSpeaker?.focus();
+  playback.hidden = !active;
+  pauseButton.textContent = paused ? '▶' : '⏸';
+  pauseButton.setAttribute('aria-label', paused ? 'Reanudar' : 'Pausar');
+  pauseButton.title = paused ? 'Reanudar' : 'Pausar';
+}
+function stop(message='') {
+  active = null;
+  paused = false;
+  if (synth) {
+    synth.cancel();
+    if (synth.paused) synth.resume();
+  }
+  audioState(message);
+}
+function loadVoices() {
+  const safari = /Safari/i.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Edg|FxiOS/i.test(navigator.userAgent);
+  const priority = voice => {
+    const name = voice.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if (safari && /monica/i.test(name)) return 0;
+    if (!safari && /google/i.test(name)) return /^es-ES$/i.test(voice.lang) ? 0 : 1;
+    return /^es-ES$/i.test(voice.lang) ? 2 : 3;
+  };
+  voices = synth.getVoices().filter(v => /^es(?:[-_]|$)/i.test(v.lang))
+    .sort((a,b) => priority(a) - priority(b) || a.name.localeCompare(b.name));
+  voiceSelect.replaceChildren(...voices.map(v => new Option(v.name + ' · ' + v.lang, v.voiceURI)));
+  if (!voices.length) voiceSelect.add(new Option('Español · voz del sistema', ''));
+  voiceSelect.value = voices.some(v => v.voiceURI === chosenVoice) ? chosenVoice : voices[0]?.voiceURI || '';
+}
+function spokenMath(text) {
+  return text
+    .replace(/√\(([^()]*)\)/g, 'raíz cuadrada de ($1)')
+    .replace(/√(\d+(?:[.,]\d+)?)/g, 'raíz cuadrada de $1')
+    .replace(/√/g, 'raíz cuadrada de ')
+    .replace(/([xyzptabc])([²³⁴])/g, '$1 $2')
+    .replace(/²/g, ' al cuadrado')
+    .replace(/³/g, ' al cubo')
+    .replace(/⁴/g, ' a la cuarta')
+    .replace(/ˣ/g, ' elevado a equis')
+    .replace(/\b(\d+(?:[.,]\d+)?)([xyzpt])\b/g, '$1 por $2')
+    .replace(/\bx\b/g, 'equis')
+    .replace(/Δ/g, 'delta')
+    .replace(/±/g, ' más o menos ')
+    .replace(/≤/g, ' menor o igual que ')
+    .replace(/≥/g, ' mayor o igual que ')
+    .replace(/</g, ' menor que ')
+    .replace(/>/g, ' mayor que ')
+    .replace(/=/g, ' igual a ')
+    .replace(/[·×]/g, ' por ')
+    .replace(/[÷/]/g, ' dividido entre ')
+    .replace(/−/g, ' menos ')
+    .replace(/∞/g, 'infinito')
+    .replace(/∅/g, 'conjunto vacío')
+    .replace(/\s+/g, ' ').trim();
+}
+function read(speaker, index, explanation) {
+  if (!synth) return;
+  stop();
+  const [heading,,intro,items] = lessons[current];
+  const prompt = prompts[heading]?.[1] || '';
+  const narration = explanation ?? (index === undefined
+    ? [heading + '.', prompt, intro].filter(Boolean).join(' ')
+    : items[index].speech);
+  const utterance = new SpeechSynthesisUtterance(spokenMath(narration));
+  const voice = voices.find(v => v.voiceURI === voiceSelect.value) || voices[0];
+  if (voice) utterance.voice = voice;
+  utterance.lang = voice?.lang || 'es-ES';
+  utterance.rate = Number(rate.value);
+  utterance.onend = () => {
+    if (active !== utterance) return;
+    active = null;
+    paused = false;
+    audioState('Lectura terminada.');
+  };
+  utterance.onerror = () => {
+    if (active !== utterance) return;
+    active = null;
+    paused = false;
+    audioState('El navegador no pudo reproducir la explicación. Prueba otra voz o abre la explicación escrita.');
+  };
+  active = utterance;
+  activeSpeaker = speaker;
+  speaker.after(playback);
+  audioState('Explicación en voz alta…');
+  synth.speak(utterance);
+}
+function isPractice(index) {
+  return lessons[index][0].startsWith('Práctica ·');
+}
+function update() {
+  const practice = isPractice(current);
+  const total = lessons[current][3].length;
+  [...steps.children].forEach((section,i) => { section.hidden = total > 0 && i >= shown; });
+  byId('progress').hidden = total === 0;
+  byId('progress').textContent = shown + ' de ' + total + ' pasos · Sección ' + (current+1) + ' de ' + lessons.length;
+  byId('hide').hidden = !practice || total === 0;
+  byId('hide').disabled = shown === 0;
+  byId('prev').disabled = current === 0;
+  byId('next').disabled = shown === total && current === lessons.length-1;
+  byId('next').textContent = shown < total ? 'Revelar paso' : current < lessons.length-1 ? 'Siguiente sección' : 'Presentación completada';
+  byId('next').hidden = total === 0;
+}
+function openLesson(index, focus=true) {
+  if (synth) stop();
+  current = index;
+  const [heading,source,intro,items] = lessons[index];
+  const practice = isPractice(index);
+  shown = practice ? 0 : items.length;
+  title.textContent = heading;
+  const prompt = byId('prompt');
+  prompt.textContent = prompts[heading]?.[0] || '';
+  prompt.hidden = !prompts[heading];
+  byId('source').textContent = source;
+  const introPanel = byId('intro');
+  if (index === 0) {
+    introPanel.innerHTML = `<p>Mira solo lo que hay a la izquierda del signo igual. Busca tres piezas: un término con <strong>x²</strong>, otro con <strong>x</strong> y un <strong>número sin x</strong>.</p>
+<table><caption>Las tres piezas de cada ecuación</caption><thead><tr><th scope="col">Ecuación</th><th scope="col">Con x²</th><th scope="col">Con x</th><th scope="col">Sin x</th></tr></thead><tbody>
+<tr><th scope="row">x² + x − 2 = 0</th><td>x²</td><td>x</td><td>−2</td></tr>
+<tr><th scope="row">x² − 3x = 0</th><td>x²</td><td>−3x</td><td>Falta</td></tr>
+<tr><th scope="row">x² − 9 = 0</th><td>x²</td><td>Falta</td><td>−9</td></tr></tbody></table>
+<p><strong>Completa:</strong> las tres piezas están presentes. Es lo que ocurre en la primera fila.</p>
+<p><strong>Incompleta:</strong> falta alguna de las dos últimas piezas. En la segunda fila puedes escribir x² − 3x + 0 = 0. Sumar cero no cambia nada, así que ese término se omite.</p>
+<p>El cero a la derecha del igual no cuenta. El término con x² sí tiene que estar para que la ecuación sea de segundo grado.</p>`;
+  } else {
+    introPanel.textContent = intro;
+  }
+  const groups = exampleGroups[index] || [];
+  const explainButton = label => `<button class="speaker" type="button" data-explain aria-label="${label}" title="${label}"${synth ? '' : ' disabled'}>🔊</button>`;
+  const escapeText = value => value.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  steps.innerHTML = items.map((s,i) => {
+    const groupIndex = groups.findIndex(([start]) => start === i);
+    const label = groupIndex < 0 ? '' : `<div class="example-label">Ejemplo ${groupIndex+1} · ${groups[groupIndex][1]}</div>`;
+    const rows = s.math.split(/ · /).flatMap(part => {
+      const [initial,...results] = part.split(' → ');
+      return [`<p class="formula">${escapeText(initial)}</p>`, ...results.map((result,j) => {
+        const previous = j === 0 ? initial : results[j-1];
+        const reason = rowReasons[result + '::' + previous] || rowReasons[result] || s.reason;
+        return `<div class="row-explanation"><div class="operation"><p class="formula">→ ${escapeText(result)}</p>${explainButton('Escuchar esta operación')}</div><p class="row-reason">${escapeText(reason)}</p></div>`;
+      })];
+    }).join('');
+    const visual = visualSteps[s.title];
+    const map = visual ? `<figure class="product-map"><figcaption>De dónde sale cada paso</figcaption><ol>${visual.map(([before,after]) => `<li><span class="product-origin">${before}</span><span aria-hidden="true">→</span><strong>${after}</strong></li>`).join('')}</ol></figure>` : '';
+    const reasons = s.reason.split(/(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/u)
+      .map(reason => `<li>${escapeText(reason)}</li>`).join('');
+    return `<section class="step${label ? ' example-start' : ''}" hidden>${label}<h3 tabindex="-1">${i+1}. ${s.title}</h3><div class="operation"><div class="resolution">${rows}</div><button class="speaker" type="button" data-step="${i}" aria-label="Escuchar la explicación del paso ${i+1}" title="Escuchar este paso"${synth ? '' : ' disabled'}>🔊</button></div>${s.extra}${map}<div class="why"><strong>Por qué</strong><ul>${reasons}</ul></div></section>`;
+  }).join('');
+  if (items.length === 0) {
+    steps.innerHTML = selfPractice.map(([name,problem,solution],i) => `<article class="step example-start"><h3>${i+1}. ${name}</h3><p class="formula">${escapeText(problem)}</p>${expectedAnswers[i] ? `<form class="answer-check" data-exercise="${i}"><label for="answer-${i}">${i===3?'Escribe a y b en ese orden':i===9?'Escribe x, y y z en ese orden':expectedAnswers[i].length===1?'Escribe la solución':'Escribe todas las soluciones'}${expectedAnswers[i].length>1?' (separadas por punto y coma)':''}</label><div class="controls"><input id="answer-${i}" type="text" autocomplete="off" required><button type="submit">Comprobar</button></div><p role="status"></p></form>` : ''}<details><summary>Ver solución</summary><ol>${solution.map(row => `<li class="row-explanation"><div class="operation"><p class="row-reason">${escapeText(row)}</p>${explainButton('Escuchar este paso de la solución')}</div></li>`).join('')}</ol></details></article>`).join('');
+  }
+  if (heading.startsWith('Gráfica ·')) {
+    const inputs = ['a','b','c'].map(key=>byId('coef-'+key));
+    inputs.forEach(input=>input.addEventListener('input',updateGraph));
+    const graphPresets = {two:[1,1,-2],one:[1,2,1],none:[1,1,1],reset:[1,1,-2]};
+    for (const [name,coefficients] of Object.entries(graphPresets)) {
+      byId('graph-'+name).onclick=()=>{
+        inputs.forEach((input,i)=>{input.value=coefficients[i];});
+        updateGraph();
+      };
+    }
+    updateGraph();
+  }
+  menuButtons.forEach((button,i) => {
+    if (i === current) button.setAttribute('aria-current','step');
+    else button.removeAttribute('aria-current');
+  });
+  update();
+  if (focus) title.focus();
+}
+const menuButtons = lessons.map(([heading],i) => {
+  const button = document.createElement('button');
+  button.textContent = (i+1) + '. ' + heading;
+  button.onclick = () => openLesson(i);
+  const group = isPractice(i) || heading === 'Practica por tu cuenta' ? 'practiceLinks' : 'explanationLinks';
+  byId(group).append(button);
+  return button;
+});
+byId('prev').onclick = () => openLesson(current-1);
+byId('hide').onclick = () => {
+  if (active) stop('Lectura detenida.');
+  shown--;
+  update();
+  if (shown === 0) byId('next').focus();
+};
+byId('next').onclick = () => {
+  if (shown === lessons[current][3].length) { openLesson(current+1); return; }
+  shown++;
+  update();
+  steps.children[shown-1].querySelector('h3').focus();
+};
+steps.addEventListener('submit', event => {
+  const form = event.target;
+  if (!form.matches('.answer-check')) return;
+  event.preventDefault();
+  const index = Number(form.dataset.exercise);
+  const result = checkAnswer(form.querySelector('input').value, expectedAnswers[index], index===3 || index===9);
+  form.querySelector('[role=status]').textContent = {
+    format:'Revisa cuántos valores has escrito. Si hay varios, sepáralos con punto y coma.',
+    correct:'Correcto. Puedes abrir la solución para comparar el procedimiento.',
+    retry:'Todavía no coincide. Revisa las operaciones y vuelve a intentarlo.'
+  }[result];
+});
+steps.addEventListener('click', event => {
+  const explanationButton = event.target.closest('button[data-explain]');
+  if (explanationButton) {
+    const reason = explanationButton.closest('.row-explanation').querySelector('.row-reason').textContent;
+    read(explanationButton, undefined, reason);
+    return;
+  }
+  const button = event.target.closest('button[data-step]');
+  if (button) read(button, Number(button.dataset.step));
+});
+byId('introSpeaker').onclick = event => read(event.currentTarget);
+byId('stop').onclick = () => stop('Lectura detenida.');
+byId('pause').onclick = () => {
+  paused = !paused;
+  if (paused) synth.pause();
+  else synth.resume();
+  audioState(paused ? 'Lectura en pausa.' : 'Leyendo en voz alta…');
+};
+if (synth) {
+  loadVoices();
+  synth.addEventListener('voiceschanged', loadVoices);
+  window.addEventListener('pagehide', () => stop());
+} else {
+  for (const id of ['voices','rate','introSpeaker']) byId(id).disabled = true;
+  audioState('La lectura en voz alta no está disponible en este navegador. Puedes leer el guion en pantalla.');
+}
+openLesson(0,false);
+</script>
+</html>
