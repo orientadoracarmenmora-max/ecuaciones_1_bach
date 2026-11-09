@@ -1,0 +1,1 @@
+# ecuaciones_1_bach
